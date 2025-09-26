@@ -334,23 +334,19 @@ function showEducationalFeedback() {
                     <span class="math-answer">${correctAnswer}</span>
                 </div>
                 <div class="math-explanation">
-                    <p class="explanation-text">
-                        <strong>${table1} × ${table2}</strong> means we add <strong>${table1}</strong> to itself <strong>${table2}</strong> times!
-                    </p>
+                    <p class="explanation-text">Make ${table2} rows of ${table1} dots.</p>
                     <div class="visual-explanation">
                         ${generateVisualExplanation(table1, table2, correctAnswer)}
                     </div>
-                    <p class="encouragement-text">
-                        Take your time to understand this! 🌟
-                    </p>
+                    <p class="encouragement-text">You got this! 🌟</p>
                 </div>
             </div>
             <div class="explanation-buttons">
                 <button class="continue-btn" id="continueFromExplanation">
-                    I Understand! Continue 🚀
+                    Continue 🚀
                 </button>
                 <button class="read-again-btn" id="readAgain">
-                    Read Again 📖
+                    Show Again 📖
                 </button>
             </div>
         </div>
@@ -391,7 +387,7 @@ function showEducationalFeedback() {
         // Show a brief "reading again" message
         const encouragementText = explanationPopup.querySelector('.encouragement-text');
         const originalText = encouragementText.textContent;
-        encouragementText.textContent = 'Take your time! Read it carefully! 👀';
+        encouragementText.textContent = 'Look at the rows and dots 👀';
         encouragementText.style.color = '#FFD700';
         
         setTimeout(() => {
@@ -405,71 +401,31 @@ function showEducationalFeedback() {
 
 // Generate visual explanation for multiplication
 function generateVisualExplanation(table1, table2, correctAnswer) {
-    // Always show dots for better visual learning, but limit for very large numbers
-    if (table1 <= 8 && table2 <= 8) {
-        // Show visual dots for numbers up to 8x8
-        let visual = '<div class="dots-explanation">';
-        for (let i = 0; i < table2; i++) {
-            visual += `<div class="dot-row">`;
-            for (let j = 0; j < table1; j++) {
-                visual += `<span class="dot">●</span>`;
-            }
-            visual += `</div>`;
+    // Build a scalable grid that always fits the popup without scrolling
+    // Cap the dot count visually but preserve the rows/columns meaning
+    const maxCols = 10; // visual cap for columns
+    const maxRows = 10; // visual cap for rows
+
+    const cols = Math.min(table1, maxCols);
+    const rows = Math.min(table2, maxRows);
+
+    let visual = `<div class="dots-grid" style="--cols:${cols}; --rows:${rows};">`;
+
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            visual += `<span class="dot dot-small">●</span>`;
         }
-        visual += `</div>`;
-        visual += `<p class="dots-text">${table2} rows of ${table1} dots = ${correctAnswer} total dots</p>`;
-        return visual;
-    } else if (table1 <= 10 && table2 <= 10) {
-        // For 9x9 and 10x10, show a condensed dot representation
-        let visual = '<div class="dots-explanation condensed">';
-        visual += `<p class="dots-intro">Let's visualize ${table1} × ${table2}:</p>`;
-        
-        // Show first few rows with actual dots
-        const showRows = Math.min(table2, 4);
-        for (let i = 0; i < showRows; i++) {
-            visual += `<div class="dot-row">`;
-            for (let j = 0; j < table1; j++) {
-                visual += `<span class="dot">●</span>`;
-            }
-            visual += `</div>`;
-        }
-        
-        // Show continuation if there are more rows
-        if (table2 > 4) {
-            visual += `<div class="dot-row-continuation">`;
-            for (let j = 0; j < table1; j++) {
-                visual += `<span class="dot">●</span>`;
-            }
-            visual += `</div>`;
-            visual += `<p class="dots-more">... and ${table2 - 4} more rows</p>`;
-        }
-        
-        visual += `</div>`;
-        visual += `<p class="dots-text">${table2} rows of ${table1} dots = ${correctAnswer} total dots</p>`;
-        return visual;
-    } else {
-        // For very large numbers, show step-by-step calculation
-        let steps = '<div class="calculation-steps">';
-        steps += `<p><strong>Step 1:</strong> ${table1} × ${table2}</p>`;
-        
-        if (table2 <= 10) {
-            steps += `<p><strong>Step 2:</strong> Add ${table1} to itself ${table2} times:</p>`;
-            steps += `<div class="addition-steps">`;
-            for (let i = 1; i <= Math.min(table2, 5); i++) {
-                steps += `<span class="addition-step">${table1}</span>`;
-                if (i < Math.min(table2, 5)) steps += ' + ';
-            }
-            if (table2 > 5) {
-                steps += ` + ... (${table2} times total)`;
-            }
-            steps += ` = ${correctAnswer}</div>`;
-        } else {
-            steps += `<p><strong>Step 2:</strong> ${table1} × ${table2} = ${correctAnswer}</p>`;
-        }
-        
-        steps += '</div>';
-        return steps;
     }
+    visual += `</div>`;
+
+    // Add caption that reinforces full size when capped
+    let caption = `${table2} rows of ${table1} dots = ${correctAnswer}`;
+    if (table1 > maxCols || table2 > maxRows) {
+        caption += ` (showing ${rows}×${cols})`;
+    }
+
+    visual += `<p class="dots-text">${caption}</p>`;
+    return visual;
 }
 
 // Update display
