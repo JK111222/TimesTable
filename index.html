@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Adventure - Multiplication Tables Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1>🌟 Math Adventure 🌟</h1>
+            <p>Help Captain Calculator solve multiplication problems!</p>
+        </header>
+
+        <div class="game-menu" id="gameMenu">
+            <div class="menu-content">
+                <h2>Choose Your Adventure!</h2>
+                <div class="difficulty-buttons">
+                    <button class="difficulty-btn easy" data-level="easy">
+                        <span class="emoji">🟢</span>
+                        <span class="level">Easy</span>
+                        <span class="description">Tables 1-5</span>
+                    </button>
+                    <button class="difficulty-btn medium" data-level="medium">
+                        <span class="emoji">🟡</span>
+                        <span class="level">Medium</span>
+                        <span class="description">Tables 1-8</span>
+                    </button>
+                    <button class="difficulty-btn hard" data-level="hard">
+                        <span class="emoji">🔴</span>
+                        <span class="level">Hard</span>
+                        <span class="description">Tables 1-10</span>
+                    </button>
+                </div>
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="stat-label">Best Score:</span>
+                        <span class="stat-value" id="bestScore">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Games Played:</span>
+                        <span class="stat-value" id="gamesPlayed">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-screen" id="gameScreen" style="display: none;">
+            <div class="game-info">
+                <div class="score-display">
+                    <span class="score-label">Score:</span>
+                    <span class="score-value" id="currentScore">0</span>
+                </div>
+                <div class="lives-display">
+                    <span class="lives-label">Lives:</span>
+                    <span class="lives-value" id="lives">❤️❤️❤️</span>
+                </div>
+                <div class="time-display">
+                    <span class="time-label">Time:</span>
+                    <span class="time-value" id="timeLeft">60</span>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question" id="question">
+                    <span class="number1" id="number1">5</span>
+                    <span class="operator">×</span>
+                    <span class="number2" id="number2">3</span>
+                    <span class="equals">=</span>
+                    <span class="question-mark">?</span>
+                </div>
+            </div>
+
+            <div class="answer-options" id="answerOptions">
+                <button class="answer-btn" data-answer="15">15</button>
+                <button class="answer-btn" data-answer="12">12</button>
+                <button class="answer-btn" data-answer="18">18</button>
+                <button class="answer-btn" data-answer="20">20</button>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="game-over" id="gameOver" style="display: none;">
+            <div class="game-over-content">
+                <h2 id="gameOverTitle">🎉 Amazing Work! 🎉</h2>
+                <div class="final-score">
+                    <span class="final-score-label">Final Score:</span>
+                    <span class="final-score-value" id="finalScore">0</span>
+                </div>
+                <div class="game-stats-final">
+                    <div class="stat-final">
+                        <span class="stat-label">Correct Answers:</span>
+                        <span class="stat-value" id="correctAnswers">0</span>
+                    </div>
+                    <div class="stat-final">
+                        <span class="stat-label">Accuracy:</span>
+                        <span class="stat-value" id="accuracy">0%</span>
+                    </div>
+                </div>
+                <div class="game-over-buttons">
+                    <button class="play-again-btn" id="playAgain">Play Again</button>
+                    <button class="menu-btn" id="backToMenu">Back to Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="celebration" id="celebration" style="display: none;">
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
