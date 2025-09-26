@@ -52,7 +52,8 @@ const elements = {
     backToMenu: document.getElementById('backToMenu'),
     bestScore: document.getElementById('bestScore'),
     gamesPlayed: document.getElementById('gamesPlayed'),
-    celebration: document.getElementById('celebration')
+    celebration: document.getElementById('celebration'),
+    homeBtn: document.getElementById('homeBtn')
 };
 
 // Initialize game
@@ -87,6 +88,13 @@ function setupEventListeners() {
 
     elements.backToMenu.addEventListener('click', function() {
         showMenu();
+    });
+
+    // Home button during game
+    elements.homeBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to go back to the menu? Your current progress will be lost.')) {
+            showMenu();
+        }
     });
 }
 
@@ -397,8 +405,9 @@ function showEducationalFeedback() {
 
 // Generate visual explanation for multiplication
 function generateVisualExplanation(table1, table2, correctAnswer) {
-    if (table1 <= 5 && table2 <= 5) {
-        // Show visual dots for smaller numbers
+    // Always show dots for better visual learning, but limit for very large numbers
+    if (table1 <= 8 && table2 <= 8) {
+        // Show visual dots for numbers up to 8x8
         let visual = '<div class="dots-explanation">';
         for (let i = 0; i < table2; i++) {
             visual += `<div class="dot-row">`;
@@ -410,8 +419,36 @@ function generateVisualExplanation(table1, table2, correctAnswer) {
         visual += `</div>`;
         visual += `<p class="dots-text">${table2} rows of ${table1} dots = ${correctAnswer} total dots</p>`;
         return visual;
+    } else if (table1 <= 10 && table2 <= 10) {
+        // For 9x9 and 10x10, show a condensed dot representation
+        let visual = '<div class="dots-explanation condensed">';
+        visual += `<p class="dots-intro">Let's visualize ${table1} × ${table2}:</p>`;
+        
+        // Show first few rows with actual dots
+        const showRows = Math.min(table2, 4);
+        for (let i = 0; i < showRows; i++) {
+            visual += `<div class="dot-row">`;
+            for (let j = 0; j < table1; j++) {
+                visual += `<span class="dot">●</span>`;
+            }
+            visual += `</div>`;
+        }
+        
+        // Show continuation if there are more rows
+        if (table2 > 4) {
+            visual += `<div class="dot-row-continuation">`;
+            for (let j = 0; j < table1; j++) {
+                visual += `<span class="dot">●</span>`;
+            }
+            visual += `</div>`;
+            visual += `<p class="dots-more">... and ${table2 - 4} more rows</p>`;
+        }
+        
+        visual += `</div>`;
+        visual += `<p class="dots-text">${table2} rows of ${table1} dots = ${correctAnswer} total dots</p>`;
+        return visual;
     } else {
-        // Show step-by-step calculation for larger numbers
+        // For very large numbers, show step-by-step calculation
         let steps = '<div class="calculation-steps">';
         steps += `<p><strong>Step 1:</strong> ${table1} × ${table2}</p>`;
         
